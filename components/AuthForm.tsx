@@ -15,6 +15,7 @@ import { useState } from 'react'
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import CustomInput from './CustomInput'
+import PlaidLink from "./PlaidLink"
 
 
 
@@ -41,9 +42,21 @@ const AuthForm = ({ type }: { type: string }) => {
       // ✅ This will be type-safe and validated.
       setIsLoading(true)
       try {
+         const userData = {
+            firstName: data.firstName!,
+            lastName: data.lastName!,
+            address1: data.address1!,
+            city: data.city!,
+            state: data.state!,
+            postalCode: data.postalCode!,
+            dateOfBirth: data.dateOfBirth!,
+            ssn: data.ssn!,
+            email: data.email,
+            password: data.password,
+         }
          //Sign up with appwrite & create plaid token
          if (type === 'sign-up') {
-            const newUser = await signUp(data)
+            const newUser = await signUp(userData)
             setUser(newUser)
          }
          if (type === 'sign-in') {
@@ -84,9 +97,12 @@ const AuthForm = ({ type }: { type: string }) => {
                </h1>
             </div>
          </header>
-         {user ? (<div className='flex flex-col gap-4'>
-            {/* PlaidLink componene */}
-         </div>) : <>
+         {user ? (
+         <div className='flex flex-col gap-4'>
+            <PlaidLink user={user} variant="primary" />
+         </div>
+         ): ( 
+         <>
             <Form {...form}>
                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                   {type === 'sign-up' && (
@@ -130,7 +146,8 @@ const AuthForm = ({ type }: { type: string }) => {
                   </Link>
                </p>
             </footer>
-         </>}
+         </>
+         )}
       </section>
    )
 }
