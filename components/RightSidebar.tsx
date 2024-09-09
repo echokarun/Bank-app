@@ -7,7 +7,7 @@ import Category from './Category'
 
 const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
   // console.log("User:", user);
-  const categories: CategoryCount[] = countTransactionCategories(transactions)   
+  const categories: CategoryCount[] = countTransactionCategories(transactions)
 
 
   return (
@@ -65,7 +65,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
           </h2>
           <div className='space-y-5'>
             {categories.map((category, index) => (
-              <Category key={category.name} category= {category} />
+              <Category key={index} category={category} />
             ))}
           </div>
         </div>
